@@ -9,11 +9,14 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
+//Method for JASON convert for JAVA == have import class
 public class LoginTestsOkhttp {
-    Gson gson = new Gson();  //Method for JASON convert for JAVA == have import class
+
+    Gson gson = new Gson();
 
     //MediaType chose only OKhttp3 and CONSTANTA == JSON
     public static final MediaType JSON = MediaType.get("application/json;charset=utf-8");
+
     //Created OkHttpClient for send responds
     OkHttpClient client = new OkHttpClient();
 
@@ -24,12 +27,11 @@ public class LoginTestsOkhttp {
                 .username("margo@gmail.com")
                 .password("Mmar123456$").build();
         RequestBody body = RequestBody.create(gson.toJson(auth),JSON);
-//Create to Builder().build()
-        Request request = new Request.Builder()
+        Request request = new Request.Builder()   //Create to Builder().build()
                 .url("https://contactapp-telran-backend.herokuapp.com/v1/user/login/usernamepassword")
                 .post(body)
                 .build();
-       Response response = client.newCall(request).execute(); //Add to expedition method .execute
+        Response response = client.newCall(request).execute(); //Add to expedition method .execute
         Assert.assertTrue(response.isSuccessful());
         Assert.assertEquals(response.code(),200);
         AuthResponseDTO responseDTO = gson.fromJson(response.body().string(), AuthResponseDTO.class);

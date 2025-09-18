@@ -5,12 +5,13 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-//Create to annatatns lombok
+//Create to annotation lombok
+
 @Getter
 @Setter
 @ToString
 @Builder
-public class AuthResponseDTO {
 
+public class AuthResponseDTO {
     private String token;
 }
