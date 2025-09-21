@@ -56,7 +56,7 @@ public class LoginTestsOkhttp {
         Assert.assertEquals(response.code(),401);
         ErrorDTO errorDTO = gson.fromJson(response.body().string(), ErrorDTO.class);
         Assert.assertEquals(errorDTO.getStatus(),401);
-        Assert.assertEquals(errorDTO.getMessage(),"Login or password is incorrect");
+        Assert.assertEquals(errorDTO.getMessage(),"Login or Password incorrect");
         Assert.assertEquals(errorDTO.getPath(),"/v1/user/login/usernamepassword");
     }
 
@@ -75,7 +75,7 @@ public class LoginTestsOkhttp {
         Assert.assertEquals(response.code(),401);
         ErrorDTO errorDTO = gson.fromJson(response.body().string(), ErrorDTO.class);
         Assert.assertEquals(errorDTO.getStatus(),401);
-        Assert.assertEquals(errorDTO.getMessage(),"Login or password is incorrect");
+        Assert.assertEquals(errorDTO.getMessage(),"Login or Password incorrect");
         Assert.assertEquals(errorDTO.getPath(),"/v1/user/login/usernamepassword");
     }
 
@@ -94,7 +94,7 @@ public class LoginTestsOkhttp {
         Assert.assertEquals(response.code(),401);
         ErrorDTO errorDTO = gson.fromJson(response.body().string(), ErrorDTO.class);
         Assert.assertEquals(errorDTO.getStatus(),401);
-        Assert.assertEquals(errorDTO.getMessage(),"Login or password is incorrect");
+        Assert.assertEquals(errorDTO.getMessage(),"Login or Password incorrect");
         Assert.assertEquals(errorDTO.getPath(),"/v1/user/login/usernamepassword");
     }
 }
