@@ -1,14 +1,15 @@
 package okhttp;
 
 import com.google.gson.Gson;
-import dto.AuthRequestDTO;
-import dto.AuthResponseDTO;
-import dto.ErrorDTO;
+import dto.*;
 import okhttp3.*;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Random;
 
 //Method for JASON convert for JAVA == have import class
 public class LoginTestsOkhttp {
@@ -96,5 +97,70 @@ public class LoginTestsOkhttp {
         Assert.assertEquals(errorDTO.getStatus(),401);
         Assert.assertEquals(errorDTO.getMessage(),"Login or Password incorrect");
         Assert.assertEquals(errorDTO.getPath(),"/v1/user/login/usernamepassword");
+    }
+
+    // ===================== WRONG TOKEN TEST===========================
+
+    @Test
+    public void getAllContactWrongToken() throws IOException {
+        AuthRequestDTO auth = AuthRequestDTO.builder()
+                .username("margo@gmail.com")
+                .password("Mmar123456$").build();
+        RequestBody body = RequestBody.create(gson.toJson(auth),JSON);
+        Request request = new Request.Builder()   //Create to Builder().build()
+                .url("https://contactapp-telran-backend.herokuapp.com/v1/user/login/usernamepassword")
+                .post(body)
+                .build();
+        Response response = client.newCall(request).execute(); //Add to expedition method .execute
+        Assert.assertFalse(response.isSuccessful());
+        Assert.assertEquals(response.code(),401);
+        ErrorDTO errorDTO = gson.fromJson(response.body().string(), ErrorDTO.class);
+        Assert.assertEquals(errorDTO.getError(),"Unauthorized");
+    }
+
+    @Test
+    public void getAllContactDTO() throws IOException {
+        AuthRequestDTO auth = AuthRequestDTO.builder()
+                .username("margo@gmail.com")
+                .password("Mmar123456$").build();
+        RequestBody body = RequestBody.create(gson.toJson(auth),JSON);
+        Request request = new Request.Builder()   //Create to Builder().build()
+                .url("https://contactapp-telran-backend.herokuapp.com/v1/user/login/usernamepassword")
+                .post(body)
+                .build();
+        Response response = client.newCall(request).execute(); //Add to expedition method .execute
+        Assert.assertFalse(response.isSuccessful());
+        Assert.assertEquals(response.code(),401);
+        AllContactsDTO contactsDTO = gson.fromJson(response.body().string(), AllContactsDTO.class);
+        List<ContactDTO>contacts=contactsDTO.getContacts();
+        for(c:contacts){
+
+            System.out.println(c.getId);
+        }
+    }
+
+    // ===================== DELETE CONTACT BY ID TEST===========================
+
+    public void deleteContactById(){
+        Request request = new Request.Builder()
+                .url("https://contactapp-telran-backend.herokuapp.com//v1/contacts/{id}")
+                .build();
+    }
+
+    @BeforeMethod
+    public void preCondition(){
+        //create contact
+        int i = new Random().nextInt(1000)+1000;
+        ContactDTO contactDTO = ContactDTO.builder()
+                .name("Batya")
+                .lastName("Aba")
+                .email("batya"+i+"@gmail.com")
+                .phone("12365984"+i)
+                .address("NY")
+                .description("BatyaABA")
+                .build();
+
+        RequestBody body =  RequestBody.create(gson.toJson(contactDTO),JSON);
+
     }
 }
