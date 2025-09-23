@@ -1,4 +1,4 @@
-package okhttp;
+package dto;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -10,6 +10,6 @@ import lombok.ToString;
 @ToString
 @Builder
 
-public class DeliteContactById {
-
+public class MessageDTO {
+    private String message;
 }

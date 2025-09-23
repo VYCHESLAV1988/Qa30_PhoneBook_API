@@ -14,5 +14,5 @@ public class ErrorDTO {
     private int status;
     private String error;
     private String path;
-    private String message;
+    private Object message;  //take to massive object
 }
