@@ -21,7 +21,6 @@ public class DeleteContactByIdTestsOkHttp {
     String id;   //Created for @BeforeMethod
 
 
-
     //===========================BEFORE METHOD FOR CREATE CONTACT ===========================================
 
 
@@ -29,25 +28,25 @@ public class DeleteContactByIdTestsOkHttp {
     public void preCondition() throws IOException {
 
         //Created random == new Random().nextInt(1000)+1000;
-        int i = new Random().nextInt(1000)+1000;
+        int i = new Random().nextInt(1000) + 1000;
 
         //Create contact ContactDTO.builder().build();
         ContactDTO contactDTO = ContactDTO.builder()
                 .name("Papa")
                 .lastName("Aba")
-                .email("papa"+i+"@gmail.com")  //random == +i+
-                .phone("12345678"+i)
+                .email("papa" + i + "@gmail.com")  //random == +i+
+                .phone("12345678" + i)
                 .address("Haifa")
                 .description("PapaAba")
                 .build();
 
         //Method POST have to  RequestBody.create(gson.toJson(contactDTO),JSON)
-        RequestBody body = RequestBody.create(gson.toJson(contactDTO),JSON);
+        RequestBody body = RequestBody.create(gson.toJson(contactDTO), JSON);
 
         Request request = new Request.Builder()
                 .url("https://contactapp-telran-backend.herokuapp.com/v1/contacts")
                 .post(body) //method
-                .addHeader("Authorization",token)
+                .addHeader("Authorization", token)
                 .build();
         Response response = client.newCall(request).execute();
 
@@ -57,8 +56,8 @@ public class DeleteContactByIdTestsOkHttp {
         System.out.println(message);
 
         //get id from message == id split
-       String[]all = message.split(": ");
-       id = all[1];
+        String[] all = message.split(": ");
+        id = all[1];
         System.out.println(id);
     }
 
@@ -68,18 +67,53 @@ public class DeleteContactByIdTestsOkHttp {
     @Test
     public void DeleteContactByIdSuccess() throws IOException {
         Request request = new Request.Builder()
-                .url("https://contactapp-telran-backend.herokuapp.com/v1/contacts/"+id)  //String id;
+                .url("https://contactapp-telran-backend.herokuapp.com/v1/contacts/" + id)  //String id;
                 .delete()  //method for test
-                .addHeader("Authorization",token)
+                .addHeader("Authorization", token)
                 .build();
         //Send to client.newCall()
         Response response = client.newCall(request).execute();
-        Assert.assertEquals(response.code(),200);
+        Assert.assertEquals(response.code(), 200);
         //Parsing to DeleteByIdResponseDTO
         MessageDTO dto = gson.fromJson(response.body().string(), MessageDTO.class);
         //sout check to response message
         System.out.println(dto.getMessage());
-        Assert.assertEquals(dto.getMessage(),"Contact was deleted!");
+        Assert.assertEquals(dto.getMessage(), "Contact was deleted!");
+    }
+
+    //============================================ NEGATIVE TESTS  =================================================
+
+
+    @Test
+    public void DeleteContactByIdFormatError400() throws IOException {
+       String wrongId = "a1b2c3adc";
+
+        Request request = new Request.Builder()
+                .url("https://contactapp-telran-backend.herokuapp.com/v1/contacts/" + wrongId)
+                .delete()
+                .addHeader("Authorization", token)
+                .build();
+
+        Response response = client.newCall(request).execute();
+        Assert.assertEquals(response.code(), 400);
+
+        MessageDTO dto = gson.fromJson(response.body().string(), MessageDTO.class);
+
+    }
+
+    @Test
+    public void UnauthorizedCode401() throws IOException {
+        String wrongId = "a1b2c3adc";
+
+        Request request = new Request.Builder()
+                .url("https://contactapp-telran-backend.herokuapp.com/v1/contacts/ +wrongId")
+                .delete()
+                .addHeader("Authorization", "wrongId")
+                .build();
+
+        Response response = client.newCall(request).execute();
+        Assert.assertEquals(response.code(), 401);
+
+        MessageDTO dto = gson.fromJson(response.body().string(), MessageDTO.class);
     }
 }
-
