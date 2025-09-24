@@ -10,7 +10,7 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-public class LoginTestsOkhttp {
+public class LoginTestsOkHttp {
     Gson gson = new Gson();
     public static final MediaType JSON = MediaType.get("application/json;charset=utf-8");
     OkHttpClient client = new OkHttpClient();

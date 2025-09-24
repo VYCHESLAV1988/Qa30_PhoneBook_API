@@ -13,7 +13,7 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 import java.util.List;
 
-public class GetAllContactsTestsOkhttp {
+public class GetAllContactsTestsOkHttp {
 
         String token = "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlcyI6WyJST0xFX1VTRVIiXSwic3ViIjoibWFyZ29AZ21haWwuY29tIiwiaXNzIjoiUmVndWxhaXQiLCJleHAiOjE3NTkwNzE3NTAsImlhdCI6MTc1ODQ3MTc1MH0.FeP3SryF43GzXm78mm9nH3EEKhK9xrRcjmlc7uyJbCg";
         Gson gson = new Gson();
